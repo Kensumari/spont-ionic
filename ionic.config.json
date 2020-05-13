@@ -1,0 +1,7 @@
+{
+  "name": "spont-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
