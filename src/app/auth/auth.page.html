@@ -1,0 +1,10 @@
+<div>sadasd</div>
+<app-custom-stepper linear>
+  <cdk-step [completed]="completed">
+    <input type="text" name="a" value="Cannot proceed to next step" />
+    <button (click)="completeStep()">Complete step</button>
+  </cdk-step>
+  <cdk-step>
+    <input type="text" name="b" value="b" />
+  </cdk-step>
+</app-custom-stepper>
