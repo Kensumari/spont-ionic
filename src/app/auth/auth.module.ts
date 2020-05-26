@@ -6,6 +6,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { AuthPage } from "./auth.page";
 import { CustomStepperComponent } from "./custom-stepper/custom-stepper.component";
 import { CdkStepperModule } from '@angular/cdk/stepper';
+import { SelectedDateIsOlderThanLegalAdultAgeDirective } from './selected-date-is-older-than-legal-adult-age.directive';
 
 const routes: Routes = [
   {
@@ -16,7 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AuthPage, CustomStepperComponent],
+  declarations: [AuthPage, CustomStepperComponent, SelectedDateIsOlderThanLegalAdultAgeDirective],
   imports: [
     CommonModule,
     FormsModule,
