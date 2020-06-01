@@ -3,23 +3,24 @@
     <cdk-step>
       <ion-item>
         <ion-label position="stacked" color="primary">DateOfBirth</ion-label>
-          <ion-datetime
+        <ion-datetime
           [(ngModel)]="dateOfBirth"
           name="dateOfBirth"
           #dateOfBirthNgModel="ngModel"
           placeholder="Date of Birth"
           max="{{getCurrentDateInInternationalFormat()}}"
         >
-
-          </ion-datetime>
-          <ion-text *ngIf="dateOfBirthNgModel.errors" color="danger">
-            <p *ngIf="dateOfBirthNgModel.errors.required">
-              Date of birth is required
-            </p>
-            <p *ngIf="dateOfBirthNgModel.errors.selectedDateIsOlderThanLegalAdultAge">
-              You need to be 18+.
-            </p>
-          </ion-text>
+        </ion-datetime>
+        <ion-text *ngIf="dateOfBirthNgModel.errors" color="danger">
+          <p *ngIf="dateOfBirthNgModel.errors.required">
+            Date of birth is required
+          </p>
+          <p
+            *ngIf="dateOfBirthNgModel.errors.selectedDateIsOlderThanLegalAdultAge"
+          >
+            You need to be 18+.
+          </p>
+        </ion-text>
       </ion-item>
       <ion-row>
         <ion-col>
@@ -28,25 +29,53 @@
           >
         </ion-col>
       </ion-row>
-   </cdk-step>
+    </cdk-step>
 
-  <cdk-step [completed]="true">
-    <input type="text" name="dateOfBirth" value="Cannot proceed to next step" />
-  </cdk-step>
-  <cdk-step>
-<!--    todo cleanup-->
-    <form #loginForm="ngForm" novalidate>
+    <cdk-step [completed]="true">
+      <input
+        type="text"
+        name="dateOfBirth"
+        value="Cannot proceed to next step"
+      />
+    </cdk-step>
+    <cdk-step>
+      <!--    todo cleanup-->
+      <form #loginForm="ngForm" novalidate>
+        <ion-item>
+          <ion-label position="stacked" color="primary">Username</ion-label>
+          <ion-input
+            [(ngModel)]="userName"
+            (ionChange)="logUserName()"
+            name="username"
+            type="text"
+            #username="ngModel"
+            spellcheck="false"
+            autocapitalize="off"
+            minlength="6"
+            required
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-row>
+          <ion-col>
+            <ion-button (Click)="signUp()" color="light" expand="block"
+              >Submit</ion-button
+            >
+          </ion-col>
+        </ion-row>
+      </form>
+    </cdk-step>
+    <cdk-step>
       <ion-item>
-        <ion-label position="stacked" color="primary">Username</ion-label>
+        <ion-label position="stacked" color="primary">DateOfBirth</ion-label>
         <ion-input
-          [(ngModel)]="userName"
-          (ionChange)="logUserName()"
-          name="username"
+          [(ngModel)]="dateOfBirth"
+          name="_dateOfBirth"
           type="text"
-          #username="ngModel"
+          #_dateOfBirth="ngModel"
           spellcheck="false"
           autocapitalize="off"
-          minlength="6"
           required
         >
         </ion-input>
@@ -54,36 +83,11 @@
 
       <ion-row>
         <ion-col>
-          <ion-button (Click)="signUp()" color="light" expand="block"
+          <ion-button (click)="submit()" color="light" expand="block"
             >Submit</ion-button
           >
         </ion-col>
       </ion-row>
-    </form>
-  </cdk-step>
-  <cdk-step>
-    <ion-item>
-      <ion-label position="stacked" color="primary">DateOfBirth</ion-label>
-      <ion-input
-        [(ngModel)]="dateOfBirth"
-        name="_dateOfBirth"
-        type="text"
-        #_dateOfBirth="ngModel"
-        spellcheck="false"
-        autocapitalize="off"
-        required
-      >
-      </ion-input>
-    </ion-item>
-
-
-    <ion-row>
-      <ion-col>
-        <ion-button (click)="submit()" color="light" expand="block"
-          >Submit</ion-button
-        >
-      </ion-col>
-    </ion-row>
- </cdk-step>
-</app-custom-stepper>
+    </cdk-step>
+  </app-custom-stepper>
 </form>

@@ -1,17 +1,17 @@
-import { Component, OnInit } from "@angular/core";
-import { format } from "date-fns";
+import { Component, OnInit } from '@angular/core';
+import { format } from 'date-fns';
 import {
   signUpRequest,
   signUpFailure,
   signUpSuccess,
-} from "../store/auth.actions";
-import { Store } from "@ngrx/store";
-import { Actions, ofType } from "@ngrx/effects";
+} from '../store/auth.actions';
+import { Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
-  selector: "app-auth",
-  templateUrl: "./auth.page.html",
-  styleUrls: ["./auth.page.scss"],
+  selector: 'app-auth',
+  templateUrl: './auth.page.html',
+  styleUrls: ['./auth.page.scss'],
 })
 export class AuthPage implements OnInit {
   phoneNumber?: number;
@@ -23,22 +23,25 @@ export class AuthPage implements OnInit {
     console.log(this.userName);
   }
 
-  constructor(private readonly store: Store, private readonly actions: Actions) {}
+  constructor(
+    private readonly store: Store,
+    private readonly actions: Actions
+  ) {}
 
   ngOnInit() {
     this.store.dispatch(
       signUpRequest({
         user: {
           phoneNumber: 1,
-          dateOfBirth: "asd",
-          userName: "asd",
-          gender: "asd",
+          dateOfBirth: 'asd',
+          userName: 'asd',
+          gender: 'asd',
         },
       })
     );
     this.actions.pipe(ofType(signUpSuccess)).subscribe(() => {
       // todo decide what happens with the user flow when sign up is successful
-      console.log("success");
+      console.log('success');
     });
     this.actions.pipe(ofType(signUpFailure)).subscribe(({ error }) => {
       // todo decide what happens with the user flow when sign up fails
@@ -70,11 +73,11 @@ export class AuthPage implements OnInit {
   }
 
   getCurrentDateInInternationalFormat() {
-    return format(new Date(), "yyyy-MM-dd");
+    return format(new Date(), 'yyyy-MM-dd');
   }
 
   submit() {
-    const a = format(new Date(this.dateOfBirth!), "yyyy-MM-dd");
+    const a = format(new Date(this.dateOfBirth!), 'yyyy-MM-dd');
     console.log(a);
   }
 }

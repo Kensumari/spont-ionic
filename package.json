@@ -9,10 +9,11 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
+    "lint-fix": "ng lint --fix",
     "e2e": "ng e2e",
-    "style": "npm run lint && npm run prettier && npm run stylelint",
-    "stylelint": "stylelint */.{scss,css,html} --fix",
-    "prettier": "prettier --write */.{json,yaml,md,ts,js,scss,css,html}"
+    "style": "npm run lint-fix && npm run prettier && npm run stylelint",
+    "stylelint": "stylelint **/*.{scss,css,html} --fix",
+    "prettier": "prettier --write **/*.{json,yaml,md,ts,js,scss,css,html}"
   },
   "private": true,
   "dependencies": {

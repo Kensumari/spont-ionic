@@ -1,5 +1,5 @@
-import { Action, createReducer, on } from "@ngrx/store";
-import { signUpRequest } from "./auth.actions";
+import { Action, createReducer, on } from '@ngrx/store';
+import { signUpRequest } from './auth.actions';
 
 export interface UserState {
   phoneNumber: number;
@@ -17,6 +17,6 @@ export function authReducer(state: AuthState | undefined, action: Action) {
     undefined as AuthState | undefined,
     on(signUpRequest, (currState, { user }) => {
       return { ...currState, user: { ...user } };
-    }),
+    })
   )(state, action);
 }
