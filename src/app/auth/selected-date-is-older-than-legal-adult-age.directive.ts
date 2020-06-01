@@ -27,7 +27,7 @@ export class SelectedDateIsOlderThanLegalAdultAgeDirective
     const userDateOfBirth = new Date(control.value);
     const eighteenYearsAgo = subYears(new Date(), 18);
     return compareAsc(userDateOfBirth, eighteenYearsAgo) === 1
-      ? { "selectedDateIsOlderThanLegalAdultAge": { value: control.value } }
+      ? { selectedDateIsOlderThanLegalAdultAge: { value: control.value } }
       : null;
   }
 }

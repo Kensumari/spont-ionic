@@ -3,10 +3,12 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { IonicModule } from "@ionic/angular";
 import { RouterModule, Routes } from "@angular/router";
-import { AuthPage } from "./auth.page";
+import { AuthPage } from "./page/auth.page";
 import { CustomStepperComponent } from "./custom-stepper/custom-stepper.component";
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { SelectedDateIsOlderThanLegalAdultAgeDirective } from './selected-date-is-older-than-legal-adult-age.directive';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './store/auth.effects';
 
 const routes: Routes = [
   {
@@ -24,6 +26,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     CdkStepperModule,
+    EffectsModule.forFeature([AuthEffects]),
   ],
 })
 export class AuthModule {}
