@@ -21,6 +21,9 @@ export class SelectedDateIsOlderThanLegalAdultAgeDirective
   implements Validator {
   constructor() {}
   validate(control: AbstractControl): ValidationErrors | null {
+    if (control.value === null || control.value === undefined) {
+      return null;
+    }
     if (typeof control.value !== 'string') {
       throw new TypeError('This validator can only be used with date strings');
     }

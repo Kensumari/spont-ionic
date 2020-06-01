@@ -2,88 +2,100 @@
   <app-custom-stepper linear>
     <cdk-step>
       <ion-item>
-        <ion-label position="stacked" color="primary">DateOfBirth</ion-label>
         <ion-datetime
-          [(ngModel)]="dateOfBirth"
+          [(ngModel)]="_dateOfBirth"
           name="dateOfBirth"
           #dateOfBirthNgModel="ngModel"
+          appSelectedDateIsOlderThanLegalAdultAge
           placeholder="Date of Birth"
           max="{{getCurrentDateInInternationalFormat()}}"
+          (ionCancel)="onUserCanceledDatePicker()"
         >
         </ion-datetime>
         <ion-text *ngIf="dateOfBirthNgModel.errors" color="danger">
-          <p *ngIf="dateOfBirthNgModel.errors.required">
-            Date of birth is required
-          </p>
           <p
             *ngIf="dateOfBirthNgModel.errors.selectedDateIsOlderThanLegalAdultAge"
           >
             You need to be 18+.
           </p>
         </ion-text>
+        <ion-text
+          *ngIf="dateOfBirthNgModel.value === undefined && _hasUserCanceledDatePicker"
+        >
+          <!-- Work around because ion-datetime runs validation as soon as user enters the datepicker which is undesireble behaviour which we do not want to do
+          because it shows error message before the appropriate moment -->
+          <p>
+            Date of birth is required
+          </p>
+        </ion-text>
       </ion-item>
       <ion-row>
         <ion-col>
-          <ion-button (click)="submit()" color="light" expand="block"
-            >Submit</ion-button
+          <ion-button
+            (click)="next()"
+            color="light"
+            expand="block"
+            [disabled]="!dateOfBirthNgModel.valid || dateOfBirthNgModel.value === undefined"
+            >Next</ion-button
+          >
+          <!-- todo Make this more DRY-->
+        </ion-col>
+      </ion-row>
+    </cdk-step>
+    <cdk-step>
+      <ion-item>
+        <ion-input
+          [(ngModel)]="_userName"
+          name="userName"
+          type="text"
+          #userNameModel="ngModel"
+          spellcheck="false"
+          autocapitalize="off"
+          minlength="4"
+          required
+          placeholder="Username"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-text *ngIf="userNameModel.errors" color="danger">
+        <p *ngIf="userNameModel.errors.minlength">
+          It needs to be at least 4 characters long.
+        </p>
+        <p *ngIf="userNameModel.errors.required && userNameModel.dirty">
+          Username is required
+        </p>
+      </ion-text>
+      <ion-row>
+        <ion-col>
+          <ion-button
+            (click)="next()"
+            color="light"
+            expand="block"
+            [disabled]="!userNameModel.valid"
+            >Next</ion-button
           >
         </ion-col>
       </ion-row>
     </cdk-step>
-
-    <cdk-step [completed]="true">
-      <input
-        type="text"
-        name="dateOfBirth"
-        value="Cannot proceed to next step"
-      />
-    </cdk-step>
-    <cdk-step>
-      <!--    todo cleanup-->
-      <form #loginForm="ngForm" novalidate>
-        <ion-item>
-          <ion-label position="stacked" color="primary">Username</ion-label>
-          <ion-input
-            [(ngModel)]="userName"
-            (ionChange)="logUserName()"
-            name="username"
-            type="text"
-            #username="ngModel"
-            spellcheck="false"
-            autocapitalize="off"
-            minlength="6"
-            required
-          >
-          </ion-input>
-        </ion-item>
-
-        <ion-row>
-          <ion-col>
-            <ion-button (Click)="signUp()" color="light" expand="block"
-              >Submit</ion-button
-            >
-          </ion-col>
-        </ion-row>
-      </form>
-    </cdk-step>
     <cdk-step>
       <ion-item>
-        <ion-label position="stacked" color="primary">DateOfBirth</ion-label>
-        <ion-input
-          [(ngModel)]="dateOfBirth"
-          name="_dateOfBirth"
-          type="text"
-          #_dateOfBirth="ngModel"
-          spellcheck="false"
-          autocapitalize="off"
-          required
-        >
-        </ion-input>
+        <ion-row>
+          <ion-radio-group [(ngModel)]="_gender" name="gender" #genderNgModel = "ngModel">
+            <ion-label>Gender</ion-label>
+            <ion-row>
+              <ion-col *ngFor="let allowedGender of _allowedGenders">
+                <ion-item>
+                  <ion-label>{{allowedGender | titlecase}}</ion-label>
+                  <ion-radio></ion-radio>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-radio-group>
+        </ion-row>
       </ion-item>
-
       <ion-row>
         <ion-col>
-          <ion-button (click)="submit()" color="light" expand="block"
+          <ion-button (click)="signUp()" color="light" expand="block" [disabled] = "genderNgModel.value === undefined"
             >Submit</ion-button
           >
         </ion-col>

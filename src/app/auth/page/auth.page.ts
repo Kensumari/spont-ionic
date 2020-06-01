@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { format } from 'date-fns';
 import {
   signUpRequest,
@@ -7,6 +7,7 @@ import {
 } from '../store/auth.actions';
 import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
+import { CustomStepperComponent } from '../custom-stepper/custom-stepper.component';
 
 @Component({
   selector: 'app-auth',
@@ -14,15 +15,18 @@ import { Actions, ofType } from '@ngrx/effects';
   styleUrls: ['./auth.page.scss'],
 })
 export class AuthPage implements OnInit {
-  phoneNumber?: number;
-  dateOfBirth?: string; // TODO change data format to backend format
-  gender?: string; // TODO change to radio buttons
-  userName?: string;
+  @ViewChild(CustomStepperComponent, { static: true })
+  customStepperComponent!: CustomStepperComponent;
+  _phoneNumber?: number;
+  _dateOfBirth?: string; // todo change data format to backend format
+  _gender?: Gender;
+  _userName?: string;
+  _hasUserCanceledDatePicker?: boolean;
+  readonly _allowedGenders = [Gender.Male, Gender.Female, Gender.Others];
 
-  logUserName() {
-    console.log(this.userName);
+  next() {
+    this.customStepperComponent.selectedIndex += 1;
   }
-
   constructor(
     private readonly store: Store,
     private readonly actions: Actions
@@ -51,10 +55,10 @@ export class AuthPage implements OnInit {
 
   signUp() {
     if (
-      this.phoneNumber === undefined ||
-      this.dateOfBirth === undefined ||
-      this.userName === undefined ||
-      this.gender === undefined
+      this._phoneNumber === undefined ||
+      this._dateOfBirth === undefined ||
+      this._userName === undefined ||
+      this._gender === undefined
     ) {
       // this should never be reached unless there is a bug with the form,
       // but the if check helps by smart casting
@@ -63,10 +67,10 @@ export class AuthPage implements OnInit {
     this.store.dispatch(
       signUpRequest({
         user: {
-          phoneNumber: this.phoneNumber,
-          dateOfBirth: this.dateOfBirth,
-          userName: this.userName,
-          gender: this.gender,
+          phoneNumber: this._phoneNumber,
+          dateOfBirth: this._dateOfBirth,
+          userName: this._userName,
+          gender: this._gender,
         },
       })
     );
@@ -76,8 +80,13 @@ export class AuthPage implements OnInit {
     return format(new Date(), 'yyyy-MM-dd');
   }
 
-  submit() {
-    const a = format(new Date(this.dateOfBirth!), 'yyyy-MM-dd');
-    console.log(a);
+  onUserCanceledDatePicker() {
+    this._hasUserCanceledDatePicker = true;
   }
+}
+
+enum Gender {
+  Male = 'male',
+  Female = 'female',
+  Others = 'others',
 }
