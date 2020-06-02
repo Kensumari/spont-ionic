@@ -73,11 +73,6 @@ ion-menu.ios ion-list {
   padding: 20px 0 0 0;
 }
 
-ion-menu.ios ion-note {
-  line-height: 24px;
-  margin-bottom: 20px;
-}
-
 ion-menu.ios ion-item {
   --padding-start: 16px;
   --padding-end: 16px;
@@ -97,14 +92,16 @@ ion-menu.ios ion-list#labels-list ion-list-header {
   margin-bottom: 8px;
 }
 
-ion-menu.ios ion-list-header,
 ion-menu.ios ion-note {
+  line-height: 24px;
   padding-left: 16px;
   padding-right: 16px;
+  margin-bottom: 8px;
 }
 
-ion-menu.ios ion-note {
-  margin-bottom: 8px;
+ion-menu.ios ion-list-header {
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 ion-note {

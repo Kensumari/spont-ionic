@@ -1,0 +1,36 @@
+*~
+*.sw[mnpcod]
+*.log
+*.tmp
+*.tmp.*
+log.txt
+*.sublime-project
+*.sublime-workspace
+npm-debug.log*
+
+.ionic/
+.sourcemaps/
+.sass-cache/
+.tmp/
+.versions/
+.git/
+coverage/
+www/
+dist/
+node_modules/
+tmp/
+temp/
+platforms/
+plugins/
+plugins/android.json
+plugins/ios.json
+$RECYCLE.BIN/
+
+.DS_Store
+Thumbs.db
+UserInterfaceState.xcuserstate
+
+# without these two ignores, npm overwrites prettier,
+# which leads to constant unnecessary diffs in commits
+package.json
+package-lock.json
