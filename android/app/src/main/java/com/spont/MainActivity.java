@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.spont;
 
 import android.os.Bundle;
 

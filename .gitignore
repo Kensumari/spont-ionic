@@ -51,3 +51,5 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+
+git-crypt-symmetric-key

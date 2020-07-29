@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, OnInit } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { CdkStepperModule } from '@angular/cdk/stepper';
@@ -11,23 +11,33 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { authReducer } from './auth/store/auth.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
-
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+// import { AngularFireAuthModule } from '@angular/fire/auth';
+// import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx'
+import {firebase} from '@firebase/app';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx';
+// import { FirebaseAnalytics } from '@ionic-native/firebase-analytics/ngx';
+firebase.initializeApp(environment.firebase);
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
-    HttpClientModule,
     IonicModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+
+    // AngularFireAuthModule,
+    // AngularFireAnalyticsModule, todo
+    HttpClientModule,
     AppRoutingModule,
     CdkStepperModule,
     StoreModule.forRoot(
-      {
-        auth: authReducer,
-      },
+      {},
       {
         runtimeChecks: {
           strictStateImmutability: true,
@@ -46,8 +56,16 @@ import { HttpClientModule } from '@angular/common/http';
   providers: [
     StatusBar,
     SplashScreen,
+    // todo
+    // FirebaseAnalytics,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    FirebaseAuthentication,
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule implements  OnInit {
+  constructor() {
+  }
+  ngOnInit(): void {
+  }
+}

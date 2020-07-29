@@ -1,0 +1,9 @@
+src/environments/environment.ts filter=git-crypt diff=git-crypt
+src/environments/environment.prod.ts filter=git-crypt diff=git-crypt
+.firebaserc filter=git-crypt diff=git-crypt
+firebase.json filter=git-crypt diff=git-crypt
+android-keystore/encrypted-key-google-play-app-signing/private_key.pepk filter=git-crypt diff=git-crypt
+android-keystore/encrypted-key-google-play-app-signing/sha1.txt filter=git-crypt diff=git-crypt
+android-keystore/keystore.jks filter=git-crypt diff=git-crypt
+android-keystore/passwords.yaml filter=git-crypt diff=git-crypt
+android/app/google-services.json filter=git-crypt diff=git-crypt

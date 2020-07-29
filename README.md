@@ -1,0 +1,1 @@
+The "git-crypt-symmetric-key" file is required to unlock private files with the `git-crypt` tool.

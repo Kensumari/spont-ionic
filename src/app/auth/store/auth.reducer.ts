@@ -1,22 +1,15 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { signUpRequest } from './auth.actions';
-
-export interface UserState {
-  phoneNumber: number;
-  dateOfBirth: string;
-  gender: string;
-  userName: string;
-}
+import { authActions } from './auth.actions';
 
 export interface AuthState {
-  user?: UserState;
+  verificationId: string
 }
 
 export function authReducer(state: AuthState | undefined, action: Action) {
   return createReducer(
     undefined as AuthState | undefined,
-    on(signUpRequest, (currState, { user }) => {
-      return { ...currState, user: { ...user } };
+    on(authActions.verificationCodeSent, (currState, { verificationId }) => {
+      return { ...currState, verificationId };
     })
   )(state, action);
 }
