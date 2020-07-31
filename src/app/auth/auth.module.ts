@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -6,29 +6,33 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthPage } from './page/auth.page';
 import { CustomStepperComponent } from './custom-stepper/custom-stepper.component';
 import { CdkStepperModule } from '@angular/cdk/stepper';
-import { SelectedDateIsOlderThanLegalAdultAgeDirective } from './selected-date-is-older-than-legal-adult-age.directive';
+import { SelectedDateIsOlderThanLegalAdultAgeDirective } from './directives/selected-date-is-older-than-legal-adult-age.directive';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './store/auth.effects';
 import { AngularFireModule } from '@angular/fire';
-// import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx';
-import { StoreModule } from '@ngrx/store';
-import { authReducer } from './store/auth.reducer';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+import { Store, StoreModule } from '@ngrx/store';
+import { authFeatureKey, authReducer } from './store/auth.reducer';
+import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
+import { authActions } from './store/auth.actions';
+import { Subscription } from 'rxjs';
+import { selectIsAppRunningOnCordova } from '../store/app.selectors';
+import { mergeMap } from 'rxjs/operators';
+import { SpontState } from '../store/app.reducer';
 
 const routes: Routes = [
   {
     path: '',
-    component: AuthPage,
-  },
+    component: AuthPage
+  }
 ];
 
 @NgModule({
   declarations: [
     AuthPage,
     CustomStepperComponent,
-    SelectedDateIsOlderThanLegalAdultAgeDirective,
+    SelectedDateIsOlderThanLegalAdultAgeDirective
   ],
   imports: [
     CommonModule,
@@ -40,10 +44,30 @@ const routes: Routes = [
     AngularFireModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
-    StoreModule.forFeature('auth', authReducer)
+    StoreModule.forFeature(authFeatureKey, authReducer, { initialState: {} })
   ],
   providers: [
-    FirebaseAuthentication,
+    FirebaseAuthentication
   ]
 })
-export class AuthModule {}
+export class AuthModule implements OnDestroy {
+  private readonly subscriptions: Subscription[] = [];
+
+  constructor(private readonly ngFireAuth: AngularFireAuth,
+              private readonly cordovaFireAuth: FirebaseAuthentication,
+              private readonly store: Store<SpontState>,
+  ) {
+    this.subscriptions.push(
+      this.store.select(selectIsAppRunningOnCordova).pipe(
+        mergeMap(isAppRunningOnCordova => isAppRunningOnCordova ?
+          this.cordovaFireAuth.onAuthStateChanged() :
+          this.ngFireAuth.user
+        )
+      ).subscribe(user => this.store.dispatch(authActions.updateUserInfo({ user }))),
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+}

@@ -3,24 +3,24 @@
         <cdk-step>
             <ion-item>
                 <ion-datetime
-                        [(ngModel)]="_dateOfBirth"
+                        [(ngModel)]="dateOfBirth"
                         name="dateOfBirth"
-                        #dateOfBirthNgModel="ngModel"
+                        #dateOfBirthModel="ngModel"
                         appSelectedDateIsOlderThanLegalAdultAge
                         placeholder="Date of Birth"
                         max="{{getCurrentDateInInternationalFormat()}}"
                         (ionCancel)="onUserCanceledDatePicker()"
                 >
                 </ion-datetime>
-                <ion-text *ngIf="dateOfBirthNgModel.errors" color="danger">
+                <ion-text *ngIf="dateOfBirthModel.errors" color="danger">
                     <p
-                            *ngIf="dateOfBirthNgModel.errors.selectedDateIsOlderThanLegalAdultAge"
+                            *ngIf="dateOfBirthModel.errors.selectedDateIsOlderThanLegalAdultAge"
                     >
                         You need to be 18+.
                     </p>
                 </ion-text>
                 <ion-text
-                        *ngIf="dateOfBirthNgModel.value === undefined && _hasUserCanceledDatePicker"
+                        *ngIf="dateOfBirthModel.value === undefined && hasUserCanceledDatePicker"
                 >
                     <!-- Work around because ion-datetime runs validation as soon as user enters the datepicker which is undesireble behaviour which we do not want to do
                     because it shows error message before the appropriate moment -->
@@ -35,7 +35,7 @@
                             (click)="next()"
                             color="light"
                             expand="block"
-                            [disabled]="!dateOfBirthNgModel.valid || dateOfBirthNgModel.value === undefined"
+                            [disabled]="!dateOfBirthModel.valid || dateOfBirthModel.value === undefined"
                     >Next
                     </ion-button
                     >
@@ -46,7 +46,7 @@
         <cdk-step>
             <ion-item>
                 <ion-input
-                        [(ngModel)]="_userName"
+                        [(ngModel)]="userName"
                         name="userName"
                         type="text"
                         #userNameModel="ngModel"
@@ -82,10 +82,10 @@
         <cdk-step>
             <ion-item>
                 <ion-row>
-                    <ion-radio-group [(ngModel)]="_gender" name="gender" #genderNgModel="ngModel">
+                    <ion-radio-group [(ngModel)]="gender" name="gender" #genderModel="ngModel">
                         <ion-label>Gender</ion-label>
                         <ion-row>
-                            <ion-col *ngFor="let allowedGender of _allowedGenders">
+                            <ion-col *ngFor="let allowedGender of allowedGenders">
                                 <ion-item>
                                     <ion-label>{{allowedGender | titlecase}}</ion-label>
                                     <ion-radio></ion-radio>
@@ -101,7 +101,7 @@
                             (click)="next()"
                             color="light"
                             expand="block"
-                            [disabled]="!genderNgModel.value === undefined"
+                            [disabled]="!genderModel.value === undefined"
                     >Next
                     </ion-button
                     >
@@ -111,7 +111,7 @@
         <cdk-step>
             <ion-item>
                 <ion-input
-                        [(ngModel)]="_phoneNumber"
+                        [(ngModel)]="phoneNumber"
                         name="phoneNumber"
                         type="text"
                         #phoneNumberModel="ngModel"
@@ -120,22 +120,21 @@
                 >
                 </ion-input>
             </ion-item>
-            <ion-text *ngIf="phoneNumberModel.dirty && phoneNumberModel.errors && phoneNumberModel.errors.required" color="danger">
+            <ion-text *ngIf="phoneNumberModel.dirty && phoneNumberModel.errors && phoneNumberModel.errors.required"
+                      color="danger">
                 Phone number is required.
             </ion-text>
             <ion-row>
                 <ion-col>
-                    <ion-button id="sign-in-button" (load)="initializeReCAPTCHAVerifier()" (click)="signIn()" color="light" expand="block"
-                                [disabled]="!phoneNumberModel.valid"
-                    >Submit
-                    </ion-button
-                    >
+                    <ion-button (click)="sendVerificationCode()" color="light" expand="block" [disabled]="!phoneNumberModel.valid">
+                        Submit
+                    </ion-button>
                 </ion-col>
             </ion-row>
         </cdk-step>
         <cdk-step>
             <ion-input
-                    [(ngModel)]="_verificationCode"
+                    [(ngModel)]="verificationCode"
                     name="verificationCode"
                     type="number"
                     #verificationCodeModel="ngModel"
@@ -148,7 +147,7 @@
                 <ion-col>
                     <ion-button
                             (click)="confirmVerificationCode()" color="light" expand="block"
-                                [disabled]="!verificationCodeModel.valid">
+                            [disabled]="!verificationCodeModel.valid">
                         Submit
                     </ion-button>
                 </ion-col>
@@ -156,4 +155,4 @@
         </cdk-step>
     </app-custom-stepper>
 </form>
-<div id="reCAPTCHA-container"></div>
+<div id="recaptcha-container"></div>

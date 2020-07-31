@@ -1,14 +1,10 @@
 {
   "name": "spont-ionic",
   "scripts": {
-    "ng": "ng",
     "start": "npx ionic serve --prod",
     "debug": "npx ionic serve --port=2718 --consolelogs-port=31415",
     "//": "todo: add building/starting android app in emulator to the below script",
-    "build-android": "ng run app:build && capacitor copy android",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
+    "build": "ionic cap sync",
     "lint-fix": "ng lint --fix",
     "e2e": "ng e2e",
     "style": "npm run lint-fix && npm run prettier && npm run stylelint",
@@ -41,7 +37,7 @@
     "cordova-support-android-plugin": "^1.0.2",
     "cordova-support-google-services": "^1.4.1",
     "date-fns": "^2.14.0",
-    "firebase": "^7.16.1",
+    "firebase": "^7.17.1",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

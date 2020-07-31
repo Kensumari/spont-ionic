@@ -1,0 +1,15 @@
+export enum IonicPlatform {
+    ANDROID = 'android',
+    CORDOVA = 'cordova',
+    IOS = 'ios',
+    IPAD = 'ipad',
+    IPHONE = 'iphone',
+    PHABLET = 'phablet',
+    TABLET = 'tablet',
+    ELECTRON = 'electron',
+    PWA = 'pwa',
+    MOBILE = 'mobile',
+    MOBILEWEB = 'mobileweb',
+    DESKTOP = 'desktop',
+    HYBRID = 'hybrid',
+}
